@@ -1,5 +1,5 @@
-{% set version = "2.40.1" %}
-{% set sha256 = "4ad4abdd3258874f61c2e2a41d08e9930677976d303653cd1670d3e9f35463e9" %}
+{% set version = "5.0.1" %}
+{% set sha256 = "15c38307a964fa6199f4da6683a599eb7e63cc89198545b36349b87cf9aa0098" %}
 {% set major_minor = version.split(".")[:2] | join(".") %}
 
 package:
@@ -11,7 +11,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1005
+  number: 0
   skip: true  # [win]
 
 requirements:
@@ -37,7 +37,7 @@ about:
   home: http://libxmlplusplus.sourceforge.net/
   license: LGPL-2.1-or-later
   license_file: COPYING
-  summary: "C++ bindings for libxml2"
+  summary: C++ bindings for libxml2
 
 extra:
   recipe-maintainers:
