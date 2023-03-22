@@ -1,11 +1,11 @@
-About libxmlpp
-==============
+About libxmlpp-feedstock
+========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libxmlpp-feedstock/blob/main/LICENSE.txt)
 
 Home: https://libxmlplusplus.github.io/libxmlplusplus/
 
 Package license: LGPL-2.1-or-later
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/libxmlpp-feedstock/blob/main/LICENSE.txt)
 
 Summary: C++ bindings for libxml2
 
