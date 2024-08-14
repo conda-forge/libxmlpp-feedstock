@@ -1,4 +1,4 @@
-{% set version = "4.0.2" %}
+{% set version = "5.4.0" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
 {% set abi_version = "4.0" %}
 
@@ -9,10 +9,10 @@ package:
 source:
   fn: libxml++-{{ version }}.tar.xz
   url: http://ftp.gnome.org/pub/GNOME/sources/libxml++/{{ major_minor }}/libxml++-{{ version }}.tar.xz
-  sha256: 933aed23e933694d62434a56c8439e654ed84848323e990dee7880fb819d33bf
+  sha256: e9a23c436686a94698d2138e6bcbaf849121d63bfa0f50dc34fefbfd79566848
 
 build:
-  number: 1
+  number: 0
   run_exports:
     - libxmlpp-{{ abi_version }} >={{ version }}
 
@@ -26,6 +26,7 @@ outputs:
     requirements:
       build:
         - {{ compiler('cxx') }}
+        - {{ stdlib("c") }}
         - xz
         - meson
         - ninja
@@ -53,8 +54,8 @@ outputs:
       requires:
         - pkg-config
       commands:
-       - test -f ${PREFIX}/lib/pkg-config/libxml++-{{ abi_version }}.pc  # [unix]
-       - if not exist %LIBRARY_LIB%\\pkgconfig\\libxml++-{{ abi_version }}.pc exit 1  # [win]
+        - test -f ${PREFIX}/lib/pkg-config/libxml++-{{ abi_version }}.pc # [unix]
+        - if not exist %LIBRARY_LIB%\\pkgconfig\\libxml++-{{ abi_version }}.pc exit 1 # [win]
 
 
 about:
