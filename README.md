@@ -68,7 +68,7 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libxmlpp-green.svg)](https://anaconda.org/conda-forge/libxmlpp) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libxmlpp.svg)](https://anaconda.org/conda-forge/libxmlpp) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libxmlpp.svg)](https://anaconda.org/conda-forge/libxmlpp) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libxmlpp.svg)](https://anaconda.org/conda-forge/libxmlpp) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-libxmlpp--4.0-green.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libxmlpp-4.0.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libxmlpp-4.0.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libxmlpp-4.0.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libxmlpp--5.0-green.svg)](https://anaconda.org/conda-forge/libxmlpp-5.0) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libxmlpp-5.0.svg)](https://anaconda.org/conda-forge/libxmlpp-5.0) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libxmlpp-5.0.svg)](https://anaconda.org/conda-forge/libxmlpp-5.0) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libxmlpp-5.0.svg)](https://anaconda.org/conda-forge/libxmlpp-5.0) |
 
 Installing libxmlpp
 ===================
@@ -80,16 +80,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `libxmlpp, libxmlpp-4.0` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `libxmlpp, libxmlpp-5.0` can be installed with `conda`:
 
 ```
-conda install libxmlpp libxmlpp-4.0
+conda install libxmlpp libxmlpp-5.0
 ```
 
 or with `mamba`:
 
 ```
-mamba install libxmlpp libxmlpp-4.0
+mamba install libxmlpp libxmlpp-5.0
 ```
 
 It is possible to list all of the versions of `libxmlpp` available on your platform with `conda`:
@@ -136,7 +136,7 @@ available continuous integration services. Thanks to the awesome service provide
 [CircleCI](https://circleci.com/), [AppVeyor](https://www.appveyor.com/),
 [Drone](https://cloud.drone.io/welcome), and [TravisCI](https://travis-ci.com/)
 it is possible to build and upload installable packages to the
-[conda-forge](https://anaconda.org/conda-forge) [Anaconda-Cloud](https://anaconda.org/)
+[conda-forge](https://anaconda.org/conda-forge) [anaconda.org](https://anaconda.org/)
 channel for Linux, Windows and OSX respectively.
 
 To manage the continuous integration and simplify feedstock maintenance
