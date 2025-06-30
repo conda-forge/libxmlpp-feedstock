@@ -3,7 +3,7 @@
 # get meson to find pkg-config when cross compiling
 export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
 
-meson ${MESON_ARGS} \
+meson setup ${MESON_ARGS} \
     --wrap-mode=nofallback \
     --prefix="${PREFIX}" \
     -Dlibdir=lib \
