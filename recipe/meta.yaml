@@ -12,7 +12,7 @@ source:
   sha256: e9a23c436686a94698d2138e6bcbaf849121d63bfa0f50dc34fefbfd79566848
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - libxmlpp-{{ abi_version }} >={{ version }}
 
@@ -33,7 +33,7 @@ outputs:
         - pkg-config
       host:
         - zlib
-        - libxml2
+        - libxml2-devel
       run_constrained:
         - libxmlpp {{ version }}
     test:
@@ -59,7 +59,7 @@ about:
   home: https://libxmlplusplus.github.io/libxmlplusplus/
   license: LGPL-2.1-or-later
   license_file: COPYING
-  summary: C++ bindings for libxml2
+  summary: C++ bindings for libxml2-devel
 
 extra:
   recipe-maintainers:
