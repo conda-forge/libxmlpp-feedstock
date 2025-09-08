@@ -7,7 +7,7 @@ Home: https://libxmlplusplus.github.io/libxmlplusplus/
 
 Package license: LGPL-2.1-or-later
 
-Summary: C++ bindings for libxml2
+Summary: C++ bindings for libxml2-devel
 
 Current build status
 ====================
