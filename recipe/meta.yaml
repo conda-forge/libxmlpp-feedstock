@@ -38,6 +38,7 @@ outputs:
         - libxmlpp {{ version }}
     test:
       requires:
+        - libxml2-devel
         - pkg-config
       commands:
         - test -f ${PREFIX}/lib/libxml++-{{ abi_version }}${SHLIB_EXT}  # [unix]
