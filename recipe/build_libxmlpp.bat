@@ -8,6 +8,7 @@ set "PKG_CONFIG_PATH=%LIBRARY_LIB%\pkgconfig;%LIBRARY_PREFIX%\share\pkgconfig"
 set ^"MESON_OPTIONS=^
   --prefix="%LIBRARY_PREFIX%" ^
   --wrap-mode=nofallback ^
+  --buildtype=release ^
   --backend=ninja ^
  ^"
 
