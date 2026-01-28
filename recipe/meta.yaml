@@ -34,6 +34,7 @@ outputs:
       host:
         - zlib
         - libxml2-devel
+        - liblzma-devel  # [win]
       run_constrained:
         - libxmlpp {{ version }}
     test:
