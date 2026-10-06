@@ -1,6 +1,6 @@
-{% set version = "5.4.0" %}
+{% set version = "4.0.2" %}
 {% set major_minor = ".".join(version.split(".")[:2]) %}
-{% set abi_version = "5.0" %}
+{% set abi_version = "4.0" %}
 
 package:
   name: libxmlpp
@@ -9,7 +9,7 @@ package:
 source:
   fn: libxml++-{{ version }}.tar.xz
   url: http://ftp.gnome.org/pub/GNOME/sources/libxml++/{{ major_minor }}/libxml++-{{ version }}.tar.xz
-  sha256: e9a23c436686a94698d2138e6bcbaf849121d63bfa0f50dc34fefbfd79566848
+  sha256: 933aed23e933694d62434a56c8439e654ed84848323e990dee7880fb819d33bf
 
 build:
   number: 2
@@ -32,6 +32,8 @@ outputs:
         - ninja
         - pkg-config
       host:
+        - glib
+        - glibmm
         - zlib
         - libxml2-devel
         - liblzma-devel  # [win]
@@ -39,11 +41,12 @@ outputs:
         - libxmlpp {{ version }}
     test:
       requires:
+        - glib
         - libxml2-devel
         - pkg-config
       commands:
         - test -f ${PREFIX}/lib/libxml++-{{ abi_version }}${SHLIB_EXT}  # [unix]
-        - if not exist %LIBRARY_BIN%\\xml++-vc143-{{ abi_version }}-1.dll exit 1  # [win]
+        - if not exist %LIBRARY_BIN%\\xml++-vc142-{{ abi_version }}-1.dll exit 1  # [win]
         - pkg-config --exact-version {{ version }} libxml++-{{ abi_version }}
   - name: libxmlpp
     requirements:
