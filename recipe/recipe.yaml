@@ -14,7 +14,7 @@ source:
   sha256: 933aed23e933694d62434a56c8439e654ed84848323e990dee7880fb819d33bf
 
 build:
-  number: 3
+  number: 4
 
 outputs:
   - package:
@@ -37,6 +37,8 @@ outputs:
         - libxml2-devel
         - if: win
           then: liblzma-devel
+      run:
+        - libxml2-devel
       run_exports:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, upper_bound="x.x") }}
 
