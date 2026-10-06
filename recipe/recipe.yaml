@@ -1,0 +1,83 @@
+schema_version: 1
+
+context:
+  version: "5.4.0"
+  major_minor: ${{ (version | split("."))[:2] | join(".") }}
+  abi_version: "5.0"
+
+recipe:
+  name: libxmlpp
+  version: ${{ version }}
+
+source:
+  url: http://ftp.gnome.org/pub/GNOME/sources/libxml++/${{ major_minor }}/libxml++-${{ version }}.tar.xz
+  sha256: e9a23c436686a94698d2138e6bcbaf849121d63bfa0f50dc34fefbfd79566848
+
+build:
+  number: 3
+
+outputs:
+  - package:
+      name: libxmlpp-${{ abi_version }}
+    build:
+      # rattler-build selects build_libxmlpp.sh or build_libxmlpp.bat by platform
+      script: build_libxmlpp
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - xz-tools
+        - meson
+        - ninja
+        - pkg-config
+      host:
+        - zlib
+        - libxml2-devel
+        - if: win
+          then: liblzma-devel
+      run_exports:
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, upper_bound="x.x") }}
+
+    tests:
+      - package_contents:
+          lib:
+            - if: unix
+              then: xml++-${{ abi_version }}
+          files:
+            - if: win
+              then: Library/bin/xml++-vc143-${{ abi_version }}-1.dll
+      - requirements:
+          run:
+            - libxml2-devel
+            - pkg-config
+        script:
+          - pkg-config --exact-version ${{ version }} libxml++-${{ abi_version }}
+
+  - package:
+      name: libxmlpp
+    requirements:
+      run:
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
+
+    tests:
+      # libxmlpp is a metapackage, so check the files of its run dependency
+      - script:
+          - if: unix
+            then: test -f ${PREFIX}/lib/pkgconfig/libxml++-${{ abi_version }}.pc
+          - if: win
+            then: if not exist %LIBRARY_LIB%\pkgconfig\libxml++-${{ abi_version }}.pc exit 1
+
+about:
+  license: LGPL-2.1-or-later
+  license_file: COPYING
+  summary: C++ bindings for libxml2-devel
+  homepage: https://libxmlplusplus.github.io/libxmlplusplus/
+  repository: https://github.com/libxmlplusplus/libxmlplusplus
+  documentation: https://libxmlplusplus.github.io/libxmlplusplus/
+
+extra:
+  # conda-smithy otherwise names the feedstock after the first output
+  feedstock-name: libxmlpp
+  recipe-maintainers:
+    - scopatz
+    - pauldmccarthy
