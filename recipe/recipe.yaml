@@ -35,6 +35,8 @@ outputs:
         - libxml2-devel
         - if: win
           then: liblzma-devel
+      run:
+        - libxml2-devel
       run_exports:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, upper_bound="x.x") }}
 
@@ -48,7 +50,6 @@ outputs:
               then: Library/bin/xml++-vc143-${{ abi_version }}-1.dll
       - requirements:
           run:
-            - libxml2-devel
             - pkg-config
         script:
           - pkg-config --exact-version ${{ version }} libxml++-${{ abi_version }}
