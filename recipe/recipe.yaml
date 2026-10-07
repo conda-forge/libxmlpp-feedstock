@@ -6,7 +6,7 @@ context:
   abi_version: "5.0"
 
 recipe:
-  name: libxmlpp
+  name: libxmlpp-split
   version: ${{ version }}
 
 source:
@@ -17,10 +17,12 @@ build:
   number: 3
 
 outputs:
-  - package:
-      name: libxmlpp-${{ abi_version }}
+
+  # Performs the actual build - outputs
+  # are inherited by packages below
+  - staging:
+      name: libxmlpp-build
     build:
-      # rattler-build selects build_libxmlpp.sh or build_libxmlpp.bat by platform
       script: build_libxmlpp
     requirements:
       build:
@@ -35,11 +37,34 @@ outputs:
         - libxml2-devel
         - if: win
           then: liblzma-devel
-      run:
+
+  # ABI-specific runtime package
+  - package:
+      name: libxmlpp-${{ abi_version }}
+    inherit: libxmlpp-build
+    build:
+      files:
+        - if: win
+          then: Library/bin/xml++-vc143-${{ abi_version }}-1.dll
+        - if: linux
+          then: lib/libxml++-${{ abi_version }}.so.*
+        - if: osx
+          then: lib/libxml++-${{ abi_version }}*.dylib
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - xz-tools
+        - meson
+        - ninja
+        - pkg-config
+      host:
+        - zlib
         - libxml2-devel
+        - if: win
+          then: liblzma-devel
       run_exports:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, upper_bound="x.x") }}
-
     tests:
       - package_contents:
           lib:
@@ -48,25 +73,50 @@ outputs:
           files:
             - if: win
               then: Library/bin/xml++-vc143-${{ abi_version }}-1.dll
-      - requirements:
-          run:
-            - pkg-config
-        script:
-          - pkg-config --exact-version ${{ version }} libxml++-${{ abi_version }}
 
+  # ABI-independent metapackage
   - package:
       name: libxmlpp
     requirements:
       run:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
 
+  # Development package
+  - package:
+      name: libxmlpp-devel
+    inherit: libxmlpp-build
+    build:
+      files:
+        - if: win
+          then:
+           - Library/lib/*
+           - Library/include/*
+        - if: osx
+          then:
+            - include/*
+            - lib/libxml++-${{ abi_version }}/*
+            - lib/pkgconfig/*
+        - if: linux
+          then:
+            - include/*
+            - lib/libxml++-${{ abi_version }}.so
+            - lib/libxml++-${{ abi_version }}/*
+            - lib/pkgconfig/*
+    requirements:
+      run:
+        - ${{ pin_subpackage("libxmlpp", exact=True) }}
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
+        - libxml2-devel
+      run_exports:
+        - ${{ pin_subpackage("libxmlpp", exact=True) }}
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}      
     tests:
-      # libxmlpp is a metapackage, so check the files of its run dependency
-      - script:
-          - if: unix
-            then: test -f ${PREFIX}/lib/pkgconfig/libxml++-${{ abi_version }}.pc
-          - if: win
-            then: if not exist %LIBRARY_LIB%\pkgconfig\libxml++-${{ abi_version }}.pc exit 1
+      - requirements:
+          run:
+            - pkg-config
+        script:
+          - env
+          - pkg-config --exact-version=${{ version }} libxml++-${{ abi_version }}
 
 about:
   license: LGPL-2.1-or-later
