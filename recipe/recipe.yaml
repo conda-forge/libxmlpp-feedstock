@@ -91,25 +91,19 @@ outputs:
           then:
            - Library/lib/*
            - Library/include/*
-        - if: osx
+        - if: unix
           then:
             - include/*
             - lib/libxml++-${{ abi_version }}/*
             - lib/pkgconfig/*
         - if: linux
           then:
-            - include/*
             - lib/libxml++-${{ abi_version }}.so
-            - lib/libxml++-${{ abi_version }}/*
-            - lib/pkgconfig/*
     requirements:
       run:
-        - ${{ pin_subpackage("libxmlpp", exact=True) }}
-        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
         - libxml2-devel
       run_exports:
-        - ${{ pin_subpackage("libxmlpp", exact=True) }}
-        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}      
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
     tests:
       - requirements:
           run:
