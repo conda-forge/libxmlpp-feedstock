@@ -14,7 +14,7 @@ source:
   sha256: e9a23c436686a94698d2138e6bcbaf849121d63bfa0f50dc34fefbfd79566848
 
 build:
-  number: 3
+  number: 4
 
 outputs:
 
@@ -101,6 +101,9 @@ outputs:
             - lib/libxml++-${{ abi_version }}.so
     requirements:
       run:
+        # run_exports does not apply to the package itself, so the runtime
+        # library that the devel .so symlink points to must be a run dependency
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
         - libxml2-devel
       run_exports:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
