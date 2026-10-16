@@ -6,7 +6,7 @@ context:
   abi_version: "4.0"
 
 recipe:
-  name: libxmlpp
+  name: libxmlpp-split
   version: ${{ version }}
 
 source:
@@ -14,14 +14,44 @@ source:
   sha256: 933aed23e933694d62434a56c8439e654ed84848323e990dee7880fb819d33bf
 
 build:
-  number: 3
+  number: 4
 
 outputs:
+
+  # Performs the actual build - outputs
+  # are inherited by packages below
+  - staging:
+      name: libxmlpp-build
+    build:
+      script: build_libxmlpp
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - xz-tools
+        - meson
+        - ninja
+        - pkg-config
+      host:
+        - glib
+        - glibmm
+        - zlib
+        - libxml2-devel
+        - if: win
+          then: liblzma-devel
+
+  # ABI-specific runtime package
   - package:
       name: libxmlpp-${{ abi_version }}
+    inherit: libxmlpp-build
     build:
-      # rattler-build selects build_libxmlpp.sh or build_libxmlpp.bat by platform
-      script: build_libxmlpp
+      files:
+        - if: win
+          then: Library/bin/xml++-vc143-${{ abi_version }}-1.dll
+        - if: linux
+          then: lib/libxml++-${{ abi_version }}.so.*
+        - if: osx
+          then: lib/libxml++-${{ abi_version }}*.dylib
     requirements:
       build:
         - ${{ compiler('cxx') }}
@@ -39,7 +69,6 @@ outputs:
           then: liblzma-devel
       run_exports:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, upper_bound="x.x") }}
-
     tests:
       - package_contents:
           lib:
@@ -48,27 +77,48 @@ outputs:
           files:
             - if: win
               then: Library/bin/xml++-vc143-${{ abi_version }}-1.dll
-      - requirements:
-          run:
-            - glib
-            - libxml2-devel
-            - pkg-config
-        script:
-          - pkg-config --exact-version ${{ version }} libxml++-${{ abi_version }}
 
+  # ABI-independent metapackage
   - package:
       name: libxmlpp
     requirements:
       run:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
 
+  # Development package
+  - package:
+      name: libxmlpp-devel
+    inherit: libxmlpp-build
+    build:
+      files:
+        - if: win
+          then:
+           - Library/lib/*
+           - Library/include/*
+        - if: unix
+          then:
+            - include/*
+            - lib/libxml++-${{ abi_version }}/*
+            - lib/pkgconfig/*
+        - if: linux
+          then:
+            - lib/libxml++-${{ abi_version }}.so
+    requirements:
+      run:
+        # run_exports does not apply to the package itself, so the runtime
+        # library that the devel .so symlink points to must be a run dependency
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
+        - libxml2-devel
+      run_exports:
+        - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
     tests:
-      # libxmlpp is a metapackage, so check the files of its run dependency
-      - script:
-          - if: unix
-            then: test -f ${PREFIX}/lib/pkgconfig/libxml++-${{ abi_version }}.pc
-          - if: win
-            then: if not exist %LIBRARY_LIB%\pkgconfig\libxml++-${{ abi_version }}.pc exit 1
+      - requirements:
+          run:
+            - glib
+            - pkg-config
+        script:
+          - env
+          - pkg-config --exact-version=${{ version }} libxml++-${{ abi_version }}
 
 about:
   license: LGPL-2.1-or-later
@@ -79,7 +129,7 @@ about:
   documentation: https://libxmlplusplus.github.io/libxmlplusplus/
 
 extra:
-  # conda-smithy otherwise names the feedstock after the first output, libxmlpp-4.0
+  # conda-smithy otherwise names the feedstock after the first output
   feedstock-name: libxmlpp
   recipe-maintainers:
     - scopatz
