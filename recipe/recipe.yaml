@@ -121,6 +121,32 @@ outputs:
         script:
           - env
           - pkg-config --exact-version=${{ version }} libxml++-${{ abi_version }}
+      # Build and run a program against the installed package to check that
+      # the headers, pkg-config file, and linked library are all usable.
+      # Not on Windows, as pkg-config gives -l flags that MSVC does not accept.
+      - if: unix
+        then:
+          - requirements:
+              run:
+                # Use the compiler metapackage an end user would install
+                # rather than the compiler activation packages
+                - cxx-compiler
+                - pkg-config
+            files:
+              recipe:
+                - tests/
+            script:
+              # cxx-compiler does not set compiler environment variables
+              - if: linux
+                then: export CXX=g++
+              - if: osx
+                then:
+                  - export CXX=clang++
+                  - export SDKROOT="${SDKROOT:-$(xcrun --show-sdk-path)}"
+              - export CXXFLAGS="-std=c++17"
+              - export LDFLAGS="-Wl,-rpath,${PREFIX}/lib"
+              - ${CXX} ${CXXFLAGS} tests/test_libxmlpp.cpp -o test_libxmlpp $(pkg-config --cflags --libs libxml++-${{ abi_version }}) ${LDFLAGS}
+              - ./test_libxmlpp
 
 about:
   license: LGPL-2.1-or-later
