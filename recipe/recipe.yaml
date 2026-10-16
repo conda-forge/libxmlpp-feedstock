@@ -109,12 +109,14 @@ outputs:
         # library that the devel .so symlink points to must be a run dependency
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
         - libxml2-devel
+        # libxml++-4.0.pc requires glibmm-2.68.pc, which requires glib-2.0.pc,
+        # and glib-2.0.pc is shipped by glib, which glibmm-2.68 does not depend on
+        - glib
       run_exports:
         - ${{ pin_subpackage("libxmlpp-" ~ abi_version, exact=True) }}
     tests:
       - requirements:
           run:
-            - glib
             - pkg-config
         script:
           - env
