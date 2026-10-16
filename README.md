@@ -66,6 +66,7 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libxmlpp-green.svg)](https://anaconda.org/conda-forge/libxmlpp) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libxmlpp.svg)](https://anaconda.org/conda-forge/libxmlpp) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libxmlpp.svg)](https://anaconda.org/conda-forge/libxmlpp) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libxmlpp.svg)](https://anaconda.org/conda-forge/libxmlpp) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-libxmlpp--4.0-green.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libxmlpp-4.0.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libxmlpp-4.0.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libxmlpp-4.0.svg)](https://anaconda.org/conda-forge/libxmlpp-4.0) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-libxmlpp--devel-green.svg)](https://anaconda.org/conda-forge/libxmlpp-devel) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/libxmlpp-devel.svg)](https://anaconda.org/conda-forge/libxmlpp-devel) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/libxmlpp-devel.svg)](https://anaconda.org/conda-forge/libxmlpp-devel) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/libxmlpp-devel.svg)](https://anaconda.org/conda-forge/libxmlpp-devel) |
 
 Installing libxmlpp
 ===================
@@ -84,7 +85,7 @@ How to use
 <summary>With conda</summary>
 
 ```
-conda install libxmlpp libxmlpp-4.0
+conda install libxmlpp libxmlpp-4.0 libxmlpp-devel
 ```
 
 </details>
@@ -93,7 +94,7 @@ conda install libxmlpp libxmlpp-4.0
 <summary>With mamba</summary>
 
 ```
-mamba install libxmlpp libxmlpp-4.0
+mamba install libxmlpp libxmlpp-4.0 libxmlpp-devel
 ```
 
 </details>
@@ -103,9 +104,9 @@ mamba install libxmlpp libxmlpp-4.0
 
 ```
 # for adding to your local project
-pixi add libxmlpp libxmlpp-4.0
+pixi add libxmlpp libxmlpp-4.0 libxmlpp-devel
 # for installing globally
-pixi global install libxmlpp libxmlpp-4.0
+pixi global install libxmlpp libxmlpp-4.0 libxmlpp-devel
 ```
 
 </details>
